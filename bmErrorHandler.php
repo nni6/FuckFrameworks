@@ -27,19 +27,34 @@
   * 
   */
 
-		
+    /**
+    * Класс, используемый для обработки ошибок объектов класса bmFFObject и его потомков
+    * @package FF
+    */	
 	class bmErrorHandler extends bmFFObject
 	{
 		protected $stack = array();
 		protected $errors = array();
 		
-		public function __construct($application, $parameters = array())
+       /**
+        * Конструктор
+        * 
+        * @param bmApplication $application экземпляр класса текущего приложения
+        * @param $parameters параметры
+        */
+                
+                public function __construct($application, $parameters = array())
 		{
 			parent::__construct($application, $parameters);
 			require_once(projectRoot . '/locale/' . $application->locale . '/error_messages.php');
 		}
 		
-		public function add($errorNumber)
+       /**
+        * Функция добавления ошибок в стек
+        * 
+        * @param integer $errorNumber номер ошибки
+        */		
+                public function add($errorNumber)
 		{
       if (count($this->stack) > 20)
       {
@@ -47,8 +62,14 @@
       }
 			$this->stack[] = $errorNumber;
 		}
+	
+                /**
+                 * Функция возвращает последнюю ошибку из стека
+                 * 
+                 * @return integer $output номер ошибки, если ошибок не было и стек пуст, то возвращает значение E_SUCCESS  
+                */	
 		
-		public function getLast()
+                public function getLast()
 		{
 			$output = E_SUCCESS;
 			if (count($this->stack) > 0)
@@ -57,7 +78,13 @@
 			}
 			return $output;
 		}
-		
+	       
+                /**
+                 * Функция возвращает сообщение об ошибке по её коду
+                 * 
+                 * @return string сообщение об ошибке
+                */
+	
 		public function getMessage($errorCode = null)
 		{
 			if ($errorCode === null)
@@ -66,7 +93,12 @@
 			}      
 			return $this->errors[$errorCode];
 		}
-		
+               
+                /**
+                 * Функция возвращает список последних ошибок (до 20 ошибок )
+                 * 
+                 * @return string $output список последних ошибок
+                */		
 		public function stackToString()
 		{
 			$output = '';
