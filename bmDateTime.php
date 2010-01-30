@@ -27,12 +27,21 @@
   * 
   */
 	
+  /**
+  * Класс отвечает за хранение даты и времени в системе
+  * @package FF
+  */
   class bmDateTime
   {
     
     private $value;
     private $dateTime;
-    
+    		
+  /**
+    * Конструктор
+    * 
+    * @param $time дата и время
+    */
     public function __construct($time)
     {
     	if(is_int($time))
@@ -41,23 +50,33 @@
     	}
       $this->dateTime = new DateTime($time);
     }
-    
+		
     public function __sleep()
     {
       $this->value = $this->dateTime->format('Y-m-d H:i:s');
       return array('value');
     }
-    
+     
     public function __wakeup()
     {
       $this->dateTime = new DateTime($this->value);   
     }
     
+   /**
+   * Функция преобразования даты и времени в строку
+   * 
+   * @return string дата и время в виде 'Y-m-d H:i:s'
+   */   
     public function __toString()
     {       
       return $this->dateTime->format('Y-m-d H:i:s');
     }
-    
+  
+ /**
+   * Функция возвращает дату и время текущего объекта
+   * 
+   * @return string дата и время
+   */      
     public function getValue()
     {
       return $this->dateTime;
